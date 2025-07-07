@@ -1,0 +1,15 @@
+{
+    "extends": [
+      "react-app",
+      "airbnb",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": ["prettier"],
+    "rules": {
+      "prettier/prettier": "error",
+      "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+      "import/extensions": "off",
+      "import/no-unresolved": "off",
+      "react/react-in-jsx-scope": "off"
+    }
+  }
