@@ -1,0 +1,38 @@
+$background-color: #828587;
+$button-bg: rgba(187, 200, 194, 0.6);
+$border-radius: 6px;
+$box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+$font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+.board-container {
+  width: 100%;
+  padding: 20px;
+  background-color: $background-color;
+  min-height: auto;
+  overflow-x: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+
+  .lists {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+  }
+
+  .add-list-button {
+    background-color: $button-bg;
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    border-radius: 9px;
+    cursor: pointer;
+
+    margin: 0 auto;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+}

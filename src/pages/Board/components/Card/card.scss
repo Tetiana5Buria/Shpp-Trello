@@ -1,0 +1,14 @@
+$card-background: #e1d9d9;
+$border-radius: 6px;
+$box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+$font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+.card {
+  background: $card-background;
+  padding: 12px;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  margin-bottom: 8px;
+  font-family: $font-family;
+}
