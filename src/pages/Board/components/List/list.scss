@@ -1,14 +1,5 @@
-// === ЗМІННІ ===
-$list-background: #989a9c;
-$card-background: #989a9c; // Було дублювання, залишаємо актуальне значення
-$button-bg: rgba(148, 154, 151, 0.6);
-$button-hover: rgba(9, 30, 66, 0.08);
-$border-radius: 6px;
-$box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-$font-family: 'Gill Sans', sans-serif;
-$text-color: #3b3535;
-
-// === СТИЛІ ===
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
 
 h1 {
   text-align: center;
@@ -16,7 +7,7 @@ h1 {
 }
 
 .list {
-  background: $list-background;
+  background: $list-bg;
   padding: 10px;
   border-radius: $border-radius;
   min-width: 300px;
@@ -25,37 +16,16 @@ h1 {
 
   .list-title {
     font-weight: bold;
+    margin-top: 15px;
     margin-bottom: 10px;
     text-align: center;
     text-decoration: underline;
   }
 }
 
-.card-item {
-  background: $card-background;
-  margin-bottom: 8px;
-  padding: 6px;
-  border-radius: $border-radius;
-  box-shadow: $box-shadow;
-  font-family: $font-family;
-}
+
 
 .add-card-button {
-  background: $card-background;
-  background-color: $button-bg;
-  color: $text-color;
-  padding: 10px;
-  border-radius: $border-radius;
-  cursor: pointer;
+  @include button-style();
   width: 100%;
-  text-align: center;
-  font-size: 14px;
-  box-sizing: border-box;
-  font-family: $font-family;
-  box-shadow: $box-shadow;
-
-  &:hover {
-    background-color: $button-hover;
-    color: darken($text-color, 10%);
-  }
 }

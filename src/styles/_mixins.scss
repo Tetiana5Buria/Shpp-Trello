@@ -1,0 +1,31 @@
+// src/styles/_mixins.scss
+@import './variables';
+
+@mixin button-style($bg: $button-bg, $color: $text-color) {
+    background: $card-bg;
+/*   color: $color; */
+  padding: 12px;
+  border-radius: $border-radius;
+  font-family: $font-family;
+  cursor: pointer;
+  box-shadow: $box-shadow;
+  font-size: 18px;
+  box-sizing: border-box;
+  text-align: center;
+  border: none;
+
+  &:hover {
+    background-color: $button-hover;
+    color: darken($color, 10%);
+  }
+}
+
+@mixin card-style {
+  background: $card-bg;
+  padding: 12px;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  font-family: $font-family;
+  margin-bottom: 10px;
+  font-size: 18px;
+}

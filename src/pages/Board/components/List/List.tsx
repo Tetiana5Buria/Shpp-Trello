@@ -14,7 +14,7 @@ const List: React.FC<ListProps> = ({ title, cards }) => {
       <h2 className="list-title">{title}</h2>
       <ul className="card-list">
         {cards.map((card) => (
-          <li key={card.id} className="card-item">
+          <li key={card.id}>
             <Card title={card.title} />
           </li>
         ))}
