@@ -1,11 +1,10 @@
 $list-background: #989a9c;
 $card-background: #ffffff;
-
+$card-background:#989a9c;
+$button-bg: rgba(148, 154, 151, 0.6);
 $border-radius: 6px;
 $box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-
-$font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-
+$font-family: 'Gill Sans', sans-serif;
 
 h1{
   text-align: center;
@@ -36,4 +35,18 @@ h1{
   padding: 6px;
   border-radius: $border-radius;
   box-shadow: $box-shadow;
+}
+.add-card-button {
+  background-color: #3a404a;
+  border: none;
+  color: rgb(218, 208, 208);
+  padding: 15px;
+  border-radius: 9px;
+  margin: 0 auto;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(9, 30, 66, 0.08);
+    color: #3a404a;
+  }
 }

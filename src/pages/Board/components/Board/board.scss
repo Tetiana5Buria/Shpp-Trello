@@ -1,38 +1,63 @@
-$background-color: #828587;
+// === VARIABLES ===
+$primary-bg: #878285;
+$background-color: #bba3bb;
+$list-bg: #989a9c;
+$card-bg: #e1d9d9;
+
 $button-bg: rgba(148, 154, 151, 0.6);
+$button-hover: rgba(9, 30, 66, 0.08);
+
+$text-color: #3b3535;
+
 $border-radius: 6px;
-$box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-$font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+$box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+$font-family: 'Trebuchet MS', sans-serif;
 
 .board-container {
   width: 100%;
   padding: 20px;
   background-color: $background-color;
-  min-height: auto;
-  overflow-x: auto;
+  height: calc(100vh - 80px);
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-family: $font-family;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
 
   .lists {
     display: flex;
     flex-direction: row;
     text-align: center;
+    gap: 30px;
+  }
+
+  .add-list-wrapper {
+    width: 272px;
+    display: inline-block;
+    vertical-align: top;
   }
 
   .add-list-button {
     background-color: $button-bg;
     border: none;
-    color: white;
-    padding: 10px 10px;
-    border-radius: 9px;
+    color: $text-color;
+    padding: 10px;
+    border-radius: $border-radius;
     cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+    box-sizing: border-box;
 
-    margin: 0 auto;
-  }
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    &:hover {
+      background-color: $button-hover;
+      color: $text-color;
+    }
   }
 }

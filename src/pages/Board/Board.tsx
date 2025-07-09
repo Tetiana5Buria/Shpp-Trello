@@ -48,8 +48,10 @@ function Board(): React.ReactElement {
           {lists.map((list) => (
             <List key={list.id} title={list.title} cards={list.cards} />
           ))}
+          <div className="add-list-wrapper">
+            <button className="add-list-button">+ Додати список</button>
+          </div>
         </div>
-        <button className="add-list-button">+ Додати список</button>
       </div>
     </div>
   );

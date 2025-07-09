@@ -19,6 +19,7 @@ const List: React.FC<ListProps> = ({ title, cards }) => {
           </li>
         ))}
       </ul>
+      <button className="add-card-button">+ Додати</button>
     </div>
   );
 };
