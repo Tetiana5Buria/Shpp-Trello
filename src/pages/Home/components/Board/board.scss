@@ -1,0 +1,23 @@
+.board-card {
+  width: 300px;
+  height: 200px;
+  border-radius: 10px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.6);
+  color: rgb(17, 16, 16);
+  font-weight: bold;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 15px;
+  background-color: #f9f9f9;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &__title {
+    font-size: 24px;
+    color: rgb(28, 29, 29);
+  }
+}

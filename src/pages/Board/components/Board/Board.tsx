@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import List from './components/List/List';
-import './components/Board/board.scss';
+import List from '../List/List';
+import './board.scss';
 
 interface Card {
   id: number;
