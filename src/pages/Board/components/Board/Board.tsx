@@ -42,7 +42,10 @@ function Board(): React.ReactElement {
 
   return (
     <div>
-      <h1>{title}</h1>
+      <div className="board-header">
+        <button className="to-home-button">⇐ Додому</button>
+        <h1 className="board-title">{title}</h1>
+      </div>
       <div className="board-container">
         <div className="lists">
           {lists.map((list) => (
