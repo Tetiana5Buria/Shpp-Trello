@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 /* import List from '../List/List'; */
 import Board from './components/Board/Board';
 import './home.scss';
+import { Link } from 'react-router-dom';
 
 interface BoardType {
   id: number;
@@ -13,12 +14,12 @@ interface BoardType {
 
 const Home = () => {
   const [boards] = useState<BoardType[]>([
-    { id: 1, title: 'покупки', custom: { background: 'red' } },
-    { id: 2, title: 'підготовка до весілля', custom: { background: 'green' } },
-    { id: 3, title: 'розробка інтернет-магазину', custom: { background: 'blue' } },
-    { id: 4, title: 'курс по просуванню у соцмережах', custom: { background: 'grey' } },
-    { id: 5, title: 'завдання для дачі', custom: { background: 'pink' } },
-    { id: 6, title: 'ідеї для подарунку батькам', custom: { background: 'yellow' } },
+    { id: 1, title: 'покупки', custom: { background: '#FDE910' } },
+    { id: 2, title: 'підготовка до весілля', custom: { background: '#FBEC5D' } },
+    { id: 3, title: 'розробка інтернет-магазину', custom: { background: '#F4C430' } },
+    { id: 4, title: 'курс по просуванню у соцмережах', custom: { background: '#D1E231' } },
+    { id: 5, title: 'завдання для дачі', custom: { background: '#CCFF00' } },
+    { id: 6, title: 'ідеї для подарунку батькам', custom: { background: '#EEDC82' } },
   ]);
 
   return (
@@ -27,7 +28,9 @@ const Home = () => {
         <h1>Мої дошки</h1>
         <div className="boards-container">
           {boards.map((board) => (
-            <Board key={board.id} title={board.title} background={board.custom.background} />
+            <Link to={`/board/${board.id}`} key={board.id}>
+              <Board title={board.title} background={board.custom.background} />
+            </Link>
           ))}
           <button className="create-board-button">+ Створити дошку</button>
         </div>

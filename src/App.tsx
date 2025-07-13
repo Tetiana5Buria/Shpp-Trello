@@ -7,7 +7,7 @@ function App(): React.ReactElement {
   return (
     <Router>
       <Routes>
-        <Route path="/board" element={<Board />} /> {/*  localhost3000board */}
+        <Route path="/board/:board_id" element={<Board />} />
         <Route path="/" element={<Home />} /> {/* localhost 3000 */}
       </Routes>
     </Router>

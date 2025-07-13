@@ -7,10 +7,10 @@ h1 {
 }
 
 .list {
+  width: 100%;
   background: $list-bg;
   padding: 10px;
   border-radius: $border-radius;
-  min-width: 300px;
   margin-right: 16px;
   font-family: $font-family;
 
@@ -21,9 +21,14 @@ h1 {
     text-align: center;
     text-decoration: underline;
   }
+  .card-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
 }
-
-
 
 .add-card-button {
   @include button-style();

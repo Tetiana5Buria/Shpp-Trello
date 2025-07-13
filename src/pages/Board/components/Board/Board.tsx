@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import List from '../List/List';
 import './board.scss';
+import { useParams } from 'react-router-dom';
 
 interface Card {
   id: number;
@@ -14,7 +15,9 @@ interface IList {
 }
 
 function Board(): React.ReactElement {
-  const [title] = useState<string>('Моя тестова дошка'); //видалила SetTitle  з масиву
+  const { board_id } = useParams();
+  /*  const [title] = useState<string>('Моя тестова дошка');  */ //для відобрадення напису "Моя сторінка"
+  const [] = useState<string>('Моя тестова дошка');
   const [lists] = useState<IList[]>([
     {
       id: 1,
@@ -44,7 +47,7 @@ function Board(): React.ReactElement {
     <div>
       <div className="board-header">
         <button className="to-home-button">⇐ Додому</button>
-        <h1 className="board-title">{title}</h1>
+        <h1 className="board-title">Дошка № {board_id}</h1>
       </div>
       <div className="board-container">
         <div className="lists">
