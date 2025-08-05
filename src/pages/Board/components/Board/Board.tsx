@@ -16,7 +16,7 @@ interface IList {
 
 function Board(): React.ReactElement {
   const { board_id } = useParams();
-  /*  const [title] = useState<string>('Моя тестова дошка');  */ //для відобрадення напису "Моя сторінка"
+  /*  const [title] = useState<string>('Моя тестова дошка');  */
   const [] = useState<string>('Моя тестова дошка');
   const [lists] = useState<IList[]>([
     {
