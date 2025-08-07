@@ -5,8 +5,10 @@ import Home from './pages/Home/Home';
 import { Toaster } from 'sonner';
 
 function App(): React.ReactElement {
+  const basename = process.env.PUBLIC_URL;
+
   return (
-    <Router>
+    <Router basename={basename}>
       <Toaster
         position="top-right"
         toastOptions={{
