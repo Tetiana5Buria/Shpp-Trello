@@ -4,3 +4,19 @@
 .card {
   @include card-style;
 }
+.delete-card-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+}

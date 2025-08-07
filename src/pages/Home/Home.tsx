@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-/* import List from '../List/List'; */
-import Board from './components/Board/Board';
-import './home.scss';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../api/request';
+import Board from './components/Board/Board';
+import CreateBoard from './components/CreateBoard/CreateBoard';
+import './home.scss';
 
 interface BoardType {
   id: number;
@@ -12,30 +13,43 @@ interface BoardType {
   };
 }
 
+interface BoardsResponse {
+  boards: BoardType[];
+}
+
 const Home = () => {
-  const [boards] = useState<BoardType[]>([
-    { id: 1, title: 'покупки', custom: { background: '#FDE910' } },
-    { id: 2, title: 'підготовка до весілля', custom: { background: '#FBEC5D' } },
-    { id: 3, title: 'розробка інтернет-магазину', custom: { background: '#F4C430' } },
-    { id: 4, title: 'курс по просуванню у соцмережах', custom: { background: '#D1E231' } },
-    { id: 5, title: 'завдання для дачі', custom: { background: '#CCFF00' } },
-    { id: 6, title: 'ідеї для подарунку батькам', custom: { background: '#EEDC82' } },
-  ]);
+  const [boards, setBoards] = useState<BoardType[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchBoards = async () => {
+    try {
+      const response: BoardsResponse = await api.get('/board');
+      setBoards(response.boards);
+    } catch (error) {
+      setError('Помилка при завантаженні дошок');
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBoards();
+  }, []);
+
+  if (error) return <div>Error: {error}</div>;
 
   return (
-    <>
-      <div className="homePage">
-        <h1>Мої дошки</h1>
-        <div className="boards-container">
-          {boards.map((board) => (
-            <Link to={`/board/${board.id}`} key={board.id}>
-              <Board title={board.title} background={board.custom.background} />
-            </Link>
-          ))}
-          <button className="create-board-button">+ Створити дошку</button>
-        </div>
+    <div className="homePage">
+      <h1>Мої дошки</h1>
+      <div className="boards-container">
+        {boards.map((board) => (
+          <Link to={`/board/${board.id}`} key={board.id}>
+            <Board title={board.title} custom={board.custom} />
+          </Link>
+        ))}
+        <CreateBoard onBoardCreated={fetchBoards} />
       </div>
-    </>
+    </div>
   );
 };
 

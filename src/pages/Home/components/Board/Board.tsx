@@ -3,10 +3,14 @@ import './board.scss';
 
 interface BoardProps {
   title: string;
-  background: string;
+  custom?: {
+    background?: string;
+  };
 }
 
-const Board: React.FC<BoardProps> = ({ title, background }) => {
+const Board: React.FC<BoardProps> = ({ title, custom }) => {
+  const background = custom?.background || '#ffffff';
+
   return (
     <div className="board-card" style={{ background }}>
       <div className="board-card__title">{title}</div>

@@ -1,0 +1,14 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.create-list {
+    .add-list-button {
+        @include button-style();
+        width: 100%;
+    }
+
+        .modal {
+            @include modal-style;
+        }
+
+}

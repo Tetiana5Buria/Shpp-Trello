@@ -7,8 +7,8 @@ h1 {
 }
 
 .list {
-  width: 100%;
-  background: $list-bg;
+  width: 300px;
+  height: auto;
   padding: 10px;
   border-radius: $border-radius;
   margin-right: 16px;
@@ -19,7 +19,12 @@ h1 {
     margin-top: 15px;
     margin-bottom: 10px;
     text-align: center;
-    text-decoration: underline;
+    text-decoration: none;
+    display: block;
+    word-break: break-all;
+    white-space: normal;
+    max-width: 90%;
+    text-align: center;
   }
   .card-list {
     display: flex;
@@ -27,6 +32,28 @@ h1 {
     padding: 0;
     margin: 0;
     list-style: none;
+    display: block;
+    word-break: break-all;
+    white-space: normal;
+    max-width: 90%;
+    text-align: center;
+  }
+  .delete-list-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 200px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 15px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+
+    &:hover {
+      background-color: #d32f2f;
+    }
   }
 }
 

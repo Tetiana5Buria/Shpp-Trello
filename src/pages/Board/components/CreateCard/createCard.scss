@@ -1,0 +1,14 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.create-card {
+    .add-card-button {
+        @include button-style();
+        width: 100%;
+    }
+
+    .modal {
+        @include modal-style;
+    }
+
+}
