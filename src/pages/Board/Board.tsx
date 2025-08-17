@@ -37,7 +37,6 @@ function Board(): React.ReactElement {
     `/board/${board_id}`,
     fetchBoard
   );
-
   const handleKeyDown = handleKeyDownFactory(handleUpdateTitle, () => setIsEditing(false));
 
   const handleDeleteBoard = async () => {
@@ -109,5 +108,4 @@ function Board(): React.ReactElement {
     </div>
   );
 }
-
 export default Board;
