@@ -7,7 +7,6 @@ interface BoardProps {
     background?: string;
   };
 }
-
 const Board: React.FC<BoardProps> = ({ title, custom }) => {
   const background = custom?.background || '#ffffff';
 
