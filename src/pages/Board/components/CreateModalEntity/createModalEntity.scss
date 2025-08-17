@@ -1,1 +1,11 @@
 @import '../../../../styles/mixins';
+.image-preview {
+    margin-top: 10px;
+    text-align: center;
+
+    .preview-img {
+        max-width: 100px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+}

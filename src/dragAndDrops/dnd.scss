@@ -1,0 +1,14 @@
+.card-slot {
+    background: #d3d3d3;
+    opacity: 0.5;
+    height: 60px;
+    margin: 8px 0;
+    border-radius: 4px;
+}
+
+.card.dragging {
+    opacity: 0.5;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    cursor: grabbing;
+}

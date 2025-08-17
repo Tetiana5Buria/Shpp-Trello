@@ -1,26 +1,31 @@
-/* nprogress-custom.scss */
+#nprogress {
+  pointer-events: none;
+}
+
 #nprogress .bar {
-    background: transparent;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(50%, 50%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px;
+  height: 40px;
+  background: linear-gradient(#d9d316, #00f2fe);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 #nprogress .bar::after {
-    content: '⏳';
-    font-size: 200px;
-    animation: spin 1s linear infinite;
-    display: block;
-    text-align: center;
+  content: 'Loading... ⏳';
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 1px;
+  text-align: center;
 }
 
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}

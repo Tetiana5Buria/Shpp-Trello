@@ -1,6 +1,6 @@
 // src/api/request.ts
 import axios from 'axios';
-import { api } from '../common/constants'; // об'єкт із baseURL
+import { api } from '../common/constants';
 import NProgress from 'nprogress';
 import '../styles/nprogress.scss';
 
@@ -14,7 +14,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(async (config) => {
   NProgress.start();
-  await new Promise((res) => setTimeout(res, 200));
+  await new Promise((res) => setTimeout(res, 300));
   return config;
 });
 

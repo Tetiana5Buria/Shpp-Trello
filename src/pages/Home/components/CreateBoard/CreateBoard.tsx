@@ -15,11 +15,11 @@ const CreateBoard: React.FC<CreateBoardProps> = ({ onBoardCreated }) => {
       buttonText="+ Створити дошку"
       buttonClass="create-board-button"
       colorPickerClass="color-picker-board"
-      onCreate={async (title, color, reset, setError) => {
+      onCreate={async (title, color, image, reset, setError) => {
         try {
           await api.post('/board', {
             title,
-            custom: { background: color },
+            custom: { background: color, image },
           });
           reset();
           toast.success('Дошку успішно створено!');

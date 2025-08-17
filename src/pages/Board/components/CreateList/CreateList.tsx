@@ -1,28 +1,22 @@
 import api from '../../../../api/request';
+import { ICreateListProps } from '../../../../common/interfaces/ICreateListProps';
 import './createList.scss';
 import CreateModalEntity from '../../../Board/components/CreateModalEntity/CreateModalEntity';
 import { toast } from 'sonner';
 
-interface CreateListProps {
-  boardId: number;
-  color?: string;
-  onListCreated: () => void;
-}
-
-const CreateList: React.FC<CreateListProps> = ({ boardId, onListCreated, color }) => {
+const CreateList: React.FC<ICreateListProps> = ({ boardId, onListCreated }) => {
   return (
     <CreateModalEntity
       entity="список"
       buttonText="+ Створити список"
       buttonClass="add-list-button"
       colorPickerClass="color-picker-list"
-      defaultColor={color}
-      onCreate={async (title, color, reset, setError) => {
+      onCreate={async (title, color, image, reset, setError) => {
         try {
           await api.post(`/board/${boardId}/list`, {
             title,
             position: 1,
-            custom: { background: color },
+            custom: { background: color, image },
           });
           reset();
           toast.success('Список успішно створено!');

@@ -1,22 +1,10 @@
 // src/components/CreateModalEntity/CreateModalEntity.tsx
 import React, { useState } from 'react';
 import { colorOptions } from '../../../../common/constants/ColorOptions';
-import { validateTitle } from '../../../../utils/validateTitle';
+import { validateTitle } from '../validateTitle';
+import { CreateModalEntityProps } from '../../../../common/interfaces/CreateModalEntityProps';
 import './createModalEntity.scss';
-
-interface CreateModalEntityProps {
-  entity: string;
-  buttonText: string;
-  buttonClass: string;
-  colorPickerClass: string;
-  defaultColor?: string;
-  onCreate: (
-    title: string,
-    color: string,
-    reset: () => void,
-    setError: React.Dispatch<React.SetStateAction<string | null>>
-  ) => void;
-}
+import defaultImage from '../../../../assets/ase.png';
 
 const CreateModalEntity: React.FC<CreateModalEntityProps> = ({
   entity,
@@ -30,12 +18,14 @@ const CreateModalEntity: React.FC<CreateModalEntityProps> = ({
   const [title, setTitle] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [color, setColor] = useState(defaultColor || colorOptions[0]);
+  const [image, setImage] = useState<string>(defaultImage);
 
   const reset = () => {
     setTitle('');
     setColor(colorOptions[0]);
     setIsOpen(false);
     setError(null);
+    setImage(defaultImage);
   };
 
   const handleSubmit = () => {
@@ -44,7 +34,7 @@ const CreateModalEntity: React.FC<CreateModalEntityProps> = ({
       setError(errorMessage);
       return;
     }
-    onCreate(title, color, reset, setError);
+    onCreate(title, color, image, reset, setError);
   };
 
   return (
@@ -88,6 +78,10 @@ const CreateModalEntity: React.FC<CreateModalEntityProps> = ({
                   className={colorPickerClass}
                   title={`Обрати колір ${entity}`}
                 />
+              </div>
+              <div className="image-preview">
+                <p>Зображення:</p>
+                <img src={image} alt="preview" className="preview-img" />
               </div>
             </div>
             {error && <p className="error">{error}</p>}

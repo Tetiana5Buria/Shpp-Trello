@@ -4,6 +4,7 @@ export interface ICard {
   description: string;
   list_id: number;
   board_id: number;
+  position: number;
   custom?: {
     background?: string;
     deadline?: string;
