@@ -5,7 +5,6 @@ import { validateTitle } from '../validateTitle';
 import { CreateModalEntityProps } from '../../../../common/interfaces/CreateModalEntityProps';
 import './createModalEntity.scss';
 import defaultImage from '../../../../assets/ase.png';
-
 const CreateModalEntity: React.FC<CreateModalEntityProps> = ({
   entity,
   buttonText,
