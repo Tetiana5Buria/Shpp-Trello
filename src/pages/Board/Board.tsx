@@ -24,7 +24,7 @@ function Board(): React.ReactElement {
 
   useEffect(() => {
     fetchBoard();
-  }, [board_id]);
+  }, []); // було board_id в масиві. Заврала, щоб не було зайвого ререндеру
 
   const { color, handleColorChange } = useColorUpdate(
     boardData?.custom?.background || '#ffffff',
