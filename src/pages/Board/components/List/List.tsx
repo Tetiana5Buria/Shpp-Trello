@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ICard } from '../../../../common/interfaces/ICard';
-import { IListProps } from '../../../../common/interfaces/IListProps';
+import { ICard, IListProps } from '../../../../common/interfaces/Interfaces';
 import Card from '../Card/Card';
 import CreateCard from '../CreateCard/CreateCard';
 import './list.scss';
@@ -8,17 +7,41 @@ import { useEditableTitle } from '../Board/hooks/useEditableTitle';
 import { useColorUpdate } from '../Board/hooks/useColorUpdate';
 import { confirmAndDelete } from '../../../../utils/confirmAndDelete';
 import { handleKeyDownFactory } from '../../../../utils/handleKeyDownFactory';
-import { onDragEnter, onDrop } from '../../../../dragAndDrops/dndHandlers';
+import { dndDrop } from '../../../../dragAndDrops/index';
+import { getSlot } from '../../../../dragAndDrops/dndUtils';
+import { openModal } from '../../../../featchers/store/modal-slice';
+import { fetchBoard } from '../../../../featchers/store/board-slice'; // Імпорт thunk-дій з board-slice
+import { RootState, AppDispatch } from '../../../../featchers/store/store'; // Типи для RootState і AppDispatch
+import { connect } from 'react-redux';
 
-function List({ title, cards, listId, boardId, onListCreated, color: initialColor }: IListProps): React.ReactElement {
-  const endpoint = `/board/${boardId}/list/${listId}`;
-  const [allCards, setAllCards] = useState<ICard[]>(cards);
+interface ListProps extends IListProps {
+  dispatch: AppDispatch;
+  boardId: number;
+}
 
+const List: React.FC<ListProps> = ({
+  title,
+  cards,
+  listId,
+  boardId,
+  onListCreated,
+  color: initialColor,
+  onCardMoved,
+  onCardUpdated,
+  allBoardCards,
+  dispatch,
+}) => {
   useEffect(() => {
-    setAllCards(cards);
-  }, [cards]);
+    const ul = document.querySelector(`[data-list-id="${listId}"]`) as HTMLElement | null;
+    if (ul) {
+      dndDrop(ul, boardId, () => dispatch(fetchBoard(boardId.toString())));
+    }
 
-  const sortedCards = [...allCards].sort((a, b) => a.position - b.position);
+    // Cleanup опціональний
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    return () => {};
+  }, [listId, boardId, dispatch]);
+  const endpoint = `/board/${boardId}/list/${listId}`;
 
   const { color, handleColorChange } = useColorUpdate(initialColor || '#fffacd', endpoint);
 
@@ -33,6 +56,16 @@ function List({ title, cards, listId, boardId, onListCreated, color: initialColo
   const handleDeleteList = async () => {
     await confirmAndDelete('Ви впевнені, що хочете видалити список?', endpoint, onListCreated);
   };
+
+  const handleCardUpdated = () => {
+    dispatch(fetchBoard(boardId.toString())); //Redux-Thunk
+  };
+
+  const handleOpenModal = (card: ICard) => {
+    dispatch(openModal(card));
+  };
+
+  const sortedCards = [...cards].sort((a, b) => a.position - b.position);
 
   return (
     <div className="list" style={{ background: color }}>
@@ -70,33 +103,38 @@ function List({ title, cards, listId, boardId, onListCreated, color: initialColo
         {error && <p className="error">{error}</p>}
       </div>
 
-      <ul
-        className="list-cards"
-        data-list-id={listId}
-        onDragOver={(e) => onDragEnter(e.nativeEvent, e.currentTarget)}
-        onDrop={(e) => onDrop(e.nativeEvent, e.currentTarget, boardId, allCards, setAllCards)}
-      >
+      {/* Список карток */}
+      <ul className="list-cards" data-list-id={listId}>
         {sortedCards.map((card) => (
           <Card
             key={card.id}
             title={card.title}
-            cardId={card.id}
-            boardId={boardId}
+            card_id={card.id}
+            board_id={boardId}
             description={card.description}
-            listId={listId}
+            list_id={listId}
             color={card.custom?.background}
+            deadline={card.custom?.deadline}
             position={card.position}
-            onCardUpdated={onListCreated}
+            onCardUpdated={handleCardUpdated}
+            onOpenModal={() => handleOpenModal(card)}
+            setAllCards={undefined}
           />
         ))}
       </ul>
 
-      <CreateCard boardId={boardId} listId={listId} onCardCreated={onListCreated} />
+      <CreateCard boardId={boardId} listId={listId} onCardCreated={handleCardUpdated} />
       <button className="delete-list-button" onClick={handleDeleteList}>
         🗑 Видалити список
       </button>
     </div>
   );
-}
+};
 
-export default List;
+const mapStateToProps = (state: RootState) => ({});
+
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  dispatch,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);

@@ -20,8 +20,36 @@
     background-color: #d32f2f;
   }
 }
-.board-title {
+.card-content {
+  position: relative;
+  padding: 5px;
+}
+
+.card-title {
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+
+.item-edit {
+  position: absolute;
+  top: 4px;
+  right: 4px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .edit-icon {
+    color: #05184f;
+    width: 20px;
+    height: 20px;
+  }
 }

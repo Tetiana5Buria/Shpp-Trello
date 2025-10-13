@@ -1,15 +1,29 @@
+@import '../../../../styles/variables';
+
+/* body {
+  background: linear-gradient(135deg, #e7b7ef 0%, #a5ffd6 70%);
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+} */
 .board-card {
   width: 300px;
   height: 100px;
-  background: linear-gradient(to bottom, rgba(26, 26, 2, 0.6), rgba(71, 71, 51, 0.6));
   border-radius: 10px;
-  box-shadow: 0 15px 15px rgba(34, 34, 5, 0.6);
+  color: color;
   font-weight: bold;
   transition: transform 0.2s ease;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   padding: 15px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  aspect-ratio: 1/1;
+  position: relative;
+  overflow: hidden;
 
   &:hover {
     transform: scale(1.05);
@@ -17,12 +31,44 @@
 
   &__title {
     font-size: 24px;
-    color: rgb(2, 45, 45);
+    color: rgb(3, 32, 32);
     display: block;
-    word-break: break-all;
-    white-space: normal;
+    word-break: break-word;
     max-width: 90%;
     text-align: center;
     text-decoration: none;
+    z-index: 2;
+    position: relative;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    mix-blend-mode: overlay;
+    inset: 0;
+    padding: 5px;
+    border-radius: inherit;
+    background: conic-gradient(from var(--deg) at center, #1ddaba, #11b4b4, #ad61e2, #0ab8e4);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: autoRotate 2s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
+@property --deg {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@keyframes autoRotate {
+  to {
+    --deg: 360deg;
   }
 }

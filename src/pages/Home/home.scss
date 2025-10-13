@@ -1,11 +1,59 @@
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.light {
+  background: linear-gradient(to right, #a6d7e1, #6fccdf, #d4dde2);
+}
+
+body.dark {
+  background: linear-gradient(to right, #4c044c, #5c0869, #053649);
+}
+body.dark h1 {
+  color: #00e6ff;
+  box-shadow: 0 0 10px #0ef, 0 0 20px #0ef, 0 0 30px #0ef;
+}
+
+body.light h1 {
+  color: #1462b0;
+  box-shadow: 0 0 6px #00b7ff, 0 0 12px #00b7ff, 0 0 20px #00b7ff;
+}
+
 .homePage {
+  position: relative;
   padding: 20px;
   font-family: 'Trebuchet MS', 'Gill Sans', sans-serif;
 
   h1 {
     text-align: center;
+    margin-top: 15px;
     margin-bottom: 20px;
-    font-size: 36px;
+    font-size: 24px;
+    letter-spacing: 2px;
+    box-shadow: 0 0 5px #0ef, 0 0 10px #0ef, 0 0 20px #0ef;
+    transition: color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .theme-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: none;
+    border: 1px solid #0ef;
+    box-shadow: 0 0 5px #0ef, 0 0 10px #0ef, 0 0 20px #0ef;
+    border-radius: 20%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
   }
 
   .boards-container {
@@ -19,16 +67,15 @@
     padding: 12px 20px;
     border-radius: 6px;
     border: none;
-    background-color:#FFCC00;
+    background: linear-gradient(135deg, #9573b5 0%, #98db9c 70%);
     color: rgb(28, 29, 29);
     cursor: pointer;
     font-size: 24px;
+    transition: transform 0.3s ease, background-color 0.3s ease, border 0.3s ease;
 
     &:hover {
-      background-color:#FDE910;
+      background-color: #65d2ac;
       transform: scale(1.05);
-      border:5px solid rgb(216, 161, 21);
-      border-radius: 6px;
     }
   }
 }

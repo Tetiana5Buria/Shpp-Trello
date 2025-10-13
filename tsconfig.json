@@ -14,7 +14,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": ["lodash"] // Додай "lodash", якщо його немає
   },
   "include": ["src"]
 }

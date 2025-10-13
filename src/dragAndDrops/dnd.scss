@@ -1,14 +1,65 @@
-.card-slot {
-    background: #d3d3d3;
-    opacity: 0.5;
-    height: 60px;
-    margin: 8px 0;
-    border-radius: 4px;
+@import '../../src/styles/variables';
+@import '../../src//styles/mixins';
+
+.list-cards {
+  min-height: 100px;
+  padding: 0;
+  list-style: none;
+  overflow: visible;
 }
 
-.card.dragging {
-    opacity: 0.5;
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+.card-slot {
+  height: 80px;
+  background: rgba(137, 140, 145, 0.5);
+  border: 3px dashed #070d19;
+  border-radius: 3px;
+  margin: 4px 0;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+}
+
+.source-slot {
+  background: rgba(9, 30, 66, 0.04);
+}
+
+.card {
+  @include card-style;
+  user-select: none;
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+
+  &.tilted-card {
+    transform: rotate(6deg) scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
     cursor: grabbing;
+    z-index: 9999;
+    position: relative;
+    will-change: transform;
+    background: inherit;
+
+  }
+}
+
+/* .drag_image {
+  border-radius: 6px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+  transform-origin: center center;
+  will-change: transform, left, top;
+  pointer-events: none;
+  position: fixed;
+  z-index: 9999;
+  transition: transform 0.1s ease, left 0.1s ease, top 0.1s ease;
+} */
+
+.drop-highlight {
+  outline: 2px solid #0079bf;
+  outline-offset: -2px;
+  transition: outline 0.3s ease;
+}
+
+.delete-card-button,
+.card-title {
+  user-select: none;
+  pointer-events: auto;
 }

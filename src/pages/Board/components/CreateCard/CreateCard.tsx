@@ -1,8 +1,9 @@
+import React from 'react';
 import CreateModalEntity from '../CreateModalEntity/CreateModalEntity';
-import api from '../../../../api/request';
-import { ICreateCardProps } from '../../../../common/interfaces/ICreateCardProps';
 import './createCard.scss';
 import { toast } from 'sonner';
+import { createCard } from '../../../../common/services/createCardService';
+import { ICreateCardProps } from '../../../../common/interfaces/Interfaces';
 
 const CreateCard: React.FC<ICreateCardProps> = ({ boardId, listId, onCardCreated }) => {
   return (
@@ -11,20 +12,14 @@ const CreateCard: React.FC<ICreateCardProps> = ({ boardId, listId, onCardCreated
       buttonClass="add-card-button"
       buttonText="+ Додати картку"
       colorPickerClass="color-picker-list"
-      onCreate={async (title, color, image, reset, setError) => {
+      onCreate={async (title, color, reset) => {
         try {
-          await api.post(`/board/${boardId}/card`, {
-            title,
-            list_id: listId,
-            position: 1,
-            description: '',
-            custom: { background: color, image },
-          });
+          await createCard(boardId, listId, title, color);
           reset();
           toast.success('Картку успішно створено!');
           onCardCreated();
         } catch (err) {
-          setError('Помилка при створенні картки');
+          toast.error('Помилка при створенні картки');
         }
       }}
     />

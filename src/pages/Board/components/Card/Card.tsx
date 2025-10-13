@@ -1,40 +1,37 @@
-import React from 'react';
-import { ICardProps } from '../../../../common/interfaces/ICardProps';
-import { validateTitle } from '../validateTitle';
+import React, { useEffect } from 'react';
+import { ICardProps } from '../../../../common/interfaces/Interfaces';
+import { validateTitle } from '../../../../utils/validateTitle';
 import './card.scss';
 import { toast } from 'sonner';
-import { onDragStart, onDragEnd } from '../../../../dragAndDrops/dndHandlers';
-import { useColorUpdate } from '../Board/hooks/useColorUpdate';
+import { onDragStart, onDragEnd } from '../../../../dragAndDrops/index';
 import { useEditableTitle } from '../Board/hooks/useEditableTitle';
 import { confirmAndDelete } from '../../../../utils/confirmAndDelete';
-import { handleKeyDownFactory } from '../../../../utils/handleKeyDownFactory';
+import * as handleKeyDownFactory from '../../../../utils/handleKeyDownFactory';
 import api from '../../../../api/request';
+import { useAppDispatch } from '../../../../featchers/hooks';
+import { openModal } from '../../../../featchers/store/modal-slice';
+import { useNavigate } from 'react-router-dom';
+import { Edit3 } from 'lucide-react'; // імпорт іконк
+import { getCardEndpoint, navigateToCard } from '../../../../common/services/cardServices';
 
 const Card: React.FC<ICardProps> = ({
   title,
-  listId,
-  boardId,
+  list_id,
+  board_id,
   description,
-  cardId,
+  card_id,
   position,
   onCardUpdated,
-  color: initialColor,
+  color,
+  deadline,
 }) => {
-  const endpoint = `/board/${boardId}/card/${cardId}`;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { isEditing, editedTitle, error, setIsEditing, setEditedTitle, setError } = useEditableTitle(
     title,
-    endpoint,
+    getCardEndpoint(board_id, card_id),
     onCardUpdated
-  );
-
-  const { color, handleColorChange } = useColorUpdate(
-    initialColor || '#ffffff',
-    endpoint,
-    onCardUpdated,
-    editedTitle,
-    listId,
-    description
   );
 
   const handleUpdateCardTitle = async () => {
@@ -51,9 +48,9 @@ const Card: React.FC<ICardProps> = ({
     }
 
     try {
-      await api.put(endpoint, {
+      await api.put(getCardEndpoint(board_id, card_id), {
         title: editedTitle,
-        list_id: listId,
+        list_id: list_id,
         description: description || '',
         custom: { background: color },
       });
@@ -67,16 +64,46 @@ const Card: React.FC<ICardProps> = ({
   };
 
   const handleDeleteCard = async () => {
-    // eslint-disable-next-line no-alert
-    if (!window.confirm('Ви впевнені, що хочете видалити картку?')) return;
     try {
-      await confirmAndDelete('Ви впевнені, що хочете видалити картку?', endpoint, onCardUpdated);
+      await confirmAndDelete(
+        'Ви впевнені, що хочете видалити картку?',
+        getCardEndpoint(board_id, card_id),
+        onCardUpdated
+      );
     } catch {
       toast.error('Помилка при видаленні картки');
     }
   };
 
-  const handleKeyDown = handleKeyDownFactory(handleUpdateCardTitle, () => setIsEditing(false));
+  const handleKeyDown = handleKeyDownFactory.handleKeyDownFactory(handleUpdateCardTitle, () => setIsEditing(false));
+
+  const handleCardClick = () => {
+    dispatch(
+      openModal({
+        id: card_id,
+        title,
+        description: description || '',
+        list_id,
+        board_id,
+        custom: {
+          background: color || '#ffffff',
+        },
+        position: 1,
+      })
+    );
+    navigate(navigateToCard(board_id, card_id));
+  };
+
+  useEffect(() => {
+    const el = document.querySelector(`[data-card-id="${card_id}"]`);
+    if (el) {
+      (el as HTMLElement).draggable = true;
+    }
+  }, [card_id]);
+
+  const handleDragStart = (e: React.DragEvent) => {
+    onDragStart(e.nativeEvent, card_id, list_id, position);
+  };
 
   return (
     <li
@@ -84,8 +111,8 @@ const Card: React.FC<ICardProps> = ({
       style={{ background: color }}
       draggable={true}
       data-position={position}
-      data-card-id={cardId}
-      onDragStart={(e) => onDragStart(e.nativeEvent, cardId, listId, position)}
+      data-card-id={card_id}
+      onDragStart={(e) => onDragStart(e.nativeEvent, card_id, list_id, position)}
       onDragEnd={(e) => onDragEnd(e.nativeEvent)}
     >
       {isEditing ? (
@@ -101,22 +128,15 @@ const Card: React.FC<ICardProps> = ({
         />
       ) : (
         <div className="card-content">
-          <span
-            onClick={() => {
-              setIsEditing(true);
-              setEditedTitle(title);
-            }}
-            className="card-title"
-          >
-            {title}
-          </span>
-          <input
-            type="color"
-            value={color}
-            onChange={handleColorChange}
-            className="color-picker"
-            title="Обрати колір картки"
-          />
+          <div className="item">
+            <span onClick={handleCardClick} className="card-title">
+              <p className="deadline">{deadline ? `Дедлайн: ${deadline}` : ''}</p> {/* Використовуємо проп deadline */}
+              {title}
+              <div className="item-edit">
+                <Edit3 className="edit-icon" size={18} />
+              </div>
+            </span>
+          </div>
         </div>
       )}
       {error && <p className="error">{error}</p>}

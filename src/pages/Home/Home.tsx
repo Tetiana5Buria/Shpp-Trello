@@ -20,6 +20,10 @@ interface BoardsResponse {
 const Home = () => {
   const [boards, setBoards] = useState<BoardType[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('theme') === 'dark');
+  const toggleTheme = () => {
+    setIsDarkMode((prev) => !prev);
+  };
 
   const fetchBoards = async () => {
     try {
@@ -33,14 +37,21 @@ const Home = () => {
   };
 
   useEffect(() => {
+    document.body.className = isDarkMode ? 'dark' : 'light';
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
+
+  useEffect(() => {
     fetchBoards();
   }, []);
-
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="homePage">
       <h1>Мої дошки</h1>
+      <button onClick={toggleTheme} className="theme-toggle">
+        {isDarkMode ? '🌞' : '🌙'}
+      </button>
       <div className="boards-container">
         {boards.map((board) => (
           <Link to={`/board/${board.id}`} key={board.id}>

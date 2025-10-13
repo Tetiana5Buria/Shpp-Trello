@@ -1,25 +1,27 @@
 import React from 'react';
 import api from '../../../../api/request';
 import './createBoard.scss';
-import CreateModalEntity from '../../../Board/components/CreateModalEntity/CreateModalEntity';
+import CreateModalEntityBoard from '../../components/CreateModalEntityBoard';
 import { toast } from 'sonner';
-
-interface CreateBoardProps {
-  onBoardCreated: () => void;
-}
+import { CreateBoardProps } from '../../../../common/interfaces/Interfaces';
 
 const CreateBoard: React.FC<CreateBoardProps> = ({ onBoardCreated }) => {
   return (
-    <CreateModalEntity
+    <CreateModalEntityBoard
       entity="дошку"
       buttonText="+ Створити дошку"
       buttonClass="create-board-button"
       colorPickerClass="color-picker-board"
-      onCreate={async (title, color, image, reset, setError) => {
+      onCreate={async (title, background, reset, setError) => {
         try {
+          const custom = {
+            background: background.color || background.image || '',
+            backgroundType: background.color ? 'color' : 'image',
+          };
+
           await api.post('/board', {
             title,
-            custom: { background: color, image },
+            custom,
           });
           reset();
           toast.success('Дошку успішно створено!');

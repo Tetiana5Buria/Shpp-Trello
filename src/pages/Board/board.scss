@@ -2,9 +2,18 @@
 @import '../../styles/mixins';
 
 body {
-  background-image: $background-image;
+  height: 100%;
+  width: 100%;
   background-size: cover;
-  background-position: center;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+}
+h4{
+  color:rgb(42, 47, 47);
+  display: flex;
+  align-items: end;
+  justify-content: end;
 }
 
 .board-container {
@@ -41,7 +50,6 @@ body {
 
 .board-header {
   position: relative;
-  height: 60px;
   margin-top: 20px;
   padding: 0 20px;
 
@@ -53,14 +61,14 @@ body {
   }
 
   .board-title {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     font-size: 24px;
     font-weight: bold;
-    margin: 0;
-
+    margin: 0 auto;
+    max-width: fit-content;
   }
 
   .board-title input {
@@ -72,10 +80,13 @@ body {
 
   .board-title h1 {
     cursor: pointer;
+    margin: 0;
   }
 
   .color-picker {
     @include color-picker-input();
+    position: static;
+    cursor: pointer;
   }
 }
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { validateTitle } from '../../../components/validateTitle';
+import { validateTitle } from '../../../../../utils/validateTitle';
 import api from '../../../../../api/request';
 import { toast } from 'sonner';
 

@@ -3,3 +3,15 @@
  .modal {
    @include modal-style;
  }
+ .image-upload {
+   margin-top: 10px;
+   display: flex;
+   flex-direction: column;
+
+   input {
+     margin-top: 5px;
+     padding: 5px;
+     border: 1px solid #ccc;
+     border-radius: 6px;
+   }
+ }
