@@ -29,6 +29,7 @@ export function dndDrop(listEl: HTMLElement, boardId: number, onSuccess: () => v
   });
 
   listEl.addEventListener('dragleave', (event) => {
+    event.preventDefault();
     if (dndState.targetSlot && dndState.targetSlot.parentElement === listEl) {
       removeTargetSlot();
     }

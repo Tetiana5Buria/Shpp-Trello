@@ -70,7 +70,7 @@ const CardModal: React.FC<CardModalProps> = ({ onCardUpdated }) => {
             title: resp.data.title,
             custom: resp.data.custom,
           });
-          // Try to find card in boardData as fallback
+
           const boardCard = boardData?.lists?.flatMap((list) => list.cards).find((c) => String(c.id) === card_id);
           if (boardCard?.custom?.deadline && !resp.data.custom?.deadline) {
             dispatch(openModal({ ...resp.data, custom: { ...resp.data.custom, deadline: boardCard.custom.deadline } }));

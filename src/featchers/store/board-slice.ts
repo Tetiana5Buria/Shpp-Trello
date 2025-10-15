@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../../api/request';
 import { IBoardData, ICard } from '../../common/interfaces/Interfaces';
 import { getBoard } from '../../common/services/boardServices';
+import { copyCardRequest, archiveCardRequest, updateCardRequest } from '../../common/services/boardSliceServices';
 
 export interface BoardState {
   boardData: IBoardData | null;
@@ -16,20 +16,17 @@ const initialState: BoardState = {
   error: null,
 };
 
-// payload-тип для оновлення картки
 export interface UpdateCardPayload {
   boardId: string | number;
   cardId: string | number;
   data: Partial<ICard> & { archived?: boolean };
 }
 
-// payload-тип для копіювання/створення картки
 export interface CreateCardPayload {
   boardId: string | number;
   data: Partial<ICard>;
 }
 
-// payload для переміщення (batch)
 export interface MoveCardPayload {
   boardId: string | number;
   updatedCards: ICard[];
@@ -64,11 +61,7 @@ export const updateCardThunk = createAsyncThunk<void, UpdateCardPayload>(
   'board/updateCardThunk',
   async ({ boardId, cardId, data }, { dispatch, rejectWithValue }) => {
     try {
-      // eslint-disable-next-line no-console
-      console.log('updateCardThunk called with:', { boardId, cardId, data });
-      const response = await api.put(`/board/${boardId}/card/${cardId}`, data);
-      // eslint-disable-next-line no-console
-      console.log('updateCardThunk API response:', response.data);
+      await updateCardRequest(boardId, cardId, data);
       await dispatch(fetchBoard(String(boardId))).unwrap();
     } catch (err: any) {
       // eslint-disable-next-line no-console
@@ -82,7 +75,7 @@ export const copyCardThunk = createAsyncThunk<void, CreateCardPayload>(
   'board/copyCardThunk',
   async ({ boardId, data }, { dispatch, rejectWithValue }) => {
     try {
-      await api.post(`/board/${boardId}/card`, data);
+      await copyCardRequest(boardId, data); // import endpoint
       await dispatch(fetchBoard(String(boardId))).unwrap();
     } catch (err: any) {
       return rejectWithValue(err?.message || 'Помилка копіювання картки');
@@ -94,31 +87,13 @@ export const archiveCardThunk = createAsyncThunk<void, UpdateCardPayload>(
   'board/archiveCardThunk',
   async ({ boardId, cardId, data }, { dispatch, rejectWithValue }) => {
     try {
-      await api.put(`/board/${boardId}/card/${cardId}`, { ...data, archived: true });
+      await archiveCardRequest(boardId, cardId, data); // import endpoint
       await dispatch(fetchBoard(String(boardId))).unwrap();
     } catch (err: any) {
       return rejectWithValue(err?.message || 'Помилка архівації картки');
     }
   }
 );
-
-/* export const moveBoardCard = createAsyncThunk<void, MoveCardPayload>(
-  'board/moveBoardCard',
-  async ({ boardId, updatedCards }, { dispatch, rejectWithValue }) => {
-    try {
-      // Надсилаємо кожну зміну позиції (можна оптимізувати на беку)
-      for (const card of updatedCards) {
-        await api.put(`/board/${boardId}/card/${card.id}`, {
-          list_id: card.list_id,
-          position: card.position,
-        });
-      }
-      await dispatch(fetchBoard(String(boardId))).unwrap();
-    } catch (err: any) {
-      return rejectWithValue(err?.message || 'Помилка переміщення картки');
-    }
-  }
-); */
 
 const boardSlice = createSlice({
   name: 'board',
@@ -178,19 +153,6 @@ const boardSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
-    // move
-    /*  .addCase(moveBoardCard.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(moveBoardCard.fulfilled, (state) => {
-        state.loading = false;
-        state.error = null;
-      })
-      .addCase(moveBoardCard.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      }); */
   },
 });
 
