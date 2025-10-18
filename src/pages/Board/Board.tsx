@@ -20,8 +20,8 @@ function Board(): React.ReactElement {
   const boardData = useAppSelector((state) => state.board.boardData);
   const modalState = useAppSelector((state) => state.modal);
 
-  // завантаження дошки
   useEffect(() => {
+    //upload board
     if (board_id) {
       dispatch(fetchBoard(board_id));
     } else {

@@ -101,9 +101,9 @@ const Card: React.FC<ICardProps> = ({
     }
   }, [card_id]);
 
-  const handleDragStart = (e: React.DragEvent) => {
+  /*   const handleDragStart = (e: React.DragEvent) => {
     onDragStart(e.nativeEvent, card_id, list_id, position);
-  };
+  }; */
 
   return (
     <li

@@ -3,6 +3,8 @@ import './App.css';
 import Board from './pages/Board/Board';
 import Home from './pages/Home/Home';
 import CustomToaster from '../src/pages/Board/components/CustomToster/CustomToaster';
+/* import Registration from './pages/Registration'; */
+
 function App(): React.ReactElement {
   /* const basename = process.env.PUBLIC_URL; */
 
@@ -14,6 +16,7 @@ function App(): React.ReactElement {
 
         <Route path="/b/:board_id/c/:card_id" element={<Board />} />
         <Route path="/" element={<Home />} />
+        {/*         <Route path="/registration" element={<Registration />} /> */}
       </Routes>
     </Router>
   );

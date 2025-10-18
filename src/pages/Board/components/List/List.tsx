@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ICard, IListProps } from '../../../../common/interfaces/Interfaces';
 import Card from '../Card/Card';
 import CreateCard from '../CreateCard/CreateCard';
@@ -8,42 +8,32 @@ import { useColorUpdate } from '../Board/hooks/useColorUpdate';
 import { confirmAndDelete } from '../../../../utils/confirmAndDelete';
 import { handleKeyDownFactory } from '../../../../utils/handleKeyDownFactory';
 import { dndDrop } from '../../../../dragAndDrops/index';
-import { getSlot } from '../../../../dragAndDrops/dndUtils';
 import { openModal } from '../../../../featchers/store/modal-slice';
-import { fetchBoard } from '../../../../featchers/store/board-slice'; // Імпорт thunk-дій з board-slice
-import { RootState, AppDispatch } from '../../../../featchers/store/store'; // Типи для RootState і AppDispatch
-import { connect } from 'react-redux';
+import { fetchBoard } from '../../../../featchers/store/board-slice';
+import { useAppDispatch } from '../../../../featchers/hooks';
+import { getListEndpoint } from '../../../../common/services/listServices';
 
-interface ListProps extends IListProps {
-  dispatch: AppDispatch;
-  boardId: number;
-}
-
-const List: React.FC<ListProps> = ({
+const List: React.FC<IListProps & { boardId: number }> = ({
   title,
   cards,
   listId,
   boardId,
   onListCreated,
   color: initialColor,
-  onCardMoved,
-  onCardUpdated,
-  allBoardCards,
-  dispatch,
 }) => {
+  const dispatch = useAppDispatch();
+  const endpoint = getListEndpoint(boardId, listId);
+
   useEffect(() => {
     const ul = document.querySelector(`[data-list-id="${listId}"]`) as HTMLElement | null;
     if (ul) {
       dndDrop(ul, boardId, () => dispatch(fetchBoard(boardId.toString())));
     }
-
-    // Cleanup опціональний
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     return () => {};
   }, [listId, boardId, dispatch]);
-  const endpoint = `/board/${boardId}/list/${listId}`;
 
-  const { color, handleColorChange } = useColorUpdate(initialColor || '#fffacd', endpoint);
+  const { color, handleColorChange } = useColorUpdate(initialColor || '#fffacd', endpoint, onListCreated, title);
 
   const { isEditing, editedTitle, error, setIsEditing, setEditedTitle, setError, handleUpdateTitle } = useEditableTitle(
     title,
@@ -58,7 +48,7 @@ const List: React.FC<ListProps> = ({
   };
 
   const handleCardUpdated = () => {
-    dispatch(fetchBoard(boardId.toString())); //Redux-Thunk
+    dispatch(fetchBoard(boardId.toString()));
   };
 
   const handleOpenModal = (card: ICard) => {
@@ -81,6 +71,7 @@ const List: React.FC<ListProps> = ({
             }}
             onBlur={handleUpdateTitle}
             onKeyDown={handleKeyDown}
+            className="list-title-input"
           />
         ) : (
           <h2
@@ -103,7 +94,6 @@ const List: React.FC<ListProps> = ({
         {error && <p className="error">{error}</p>}
       </div>
 
-      {/* Список карток */}
       <ul className="list-cards" data-list-id={listId}>
         {sortedCards.map((card) => (
           <Card
@@ -118,7 +108,7 @@ const List: React.FC<ListProps> = ({
             position={card.position}
             onCardUpdated={handleCardUpdated}
             onOpenModal={() => handleOpenModal(card)}
-            setAllCards={undefined}
+            setAllCards={() => dispatch(fetchBoard(boardId.toString()))}
           />
         ))}
       </ul>
@@ -131,10 +121,4 @@ const List: React.FC<ListProps> = ({
   );
 };
 
-const mapStateToProps = (state: RootState) => ({});
-
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  dispatch,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default List;
