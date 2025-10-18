@@ -33,7 +33,25 @@ const List: React.FC<IListProps & { boardId: number }> = ({
     return () => {};
   }, [listId, boardId, dispatch]);
 
-  const { color, handleColorChange } = useColorUpdate(initialColor || '#fffacd', endpoint, onListCreated, title);
+  const { color, setColor, handleColorChange } = useColorUpdate(
+    initialColor || '#fffacd',
+    endpoint,
+    onListCreated,
+    title
+  );
+
+  useEffect(() => {
+    const savedColor = localStorage.getItem(`list-color-${endpoint}`);
+    if (savedColor) {
+      setColor(savedColor);
+    }
+    const ul = document.querySelector(`[data-list-id="${listId}"]`) as HTMLElement | null;
+    if (ul) {
+      dndDrop(ul, boardId, () => dispatch(fetchBoard(boardId.toString())));
+    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    return () => {};
+  }, [listId, boardId, dispatch, initialColor, endpoint, setColor]);
 
   const { isEditing, editedTitle, error, setIsEditing, setEditedTitle, setError, handleUpdateTitle } = useEditableTitle(
     title,
@@ -44,7 +62,11 @@ const List: React.FC<IListProps & { boardId: number }> = ({
   const handleKeyDown = handleKeyDownFactory(handleUpdateTitle, () => setIsEditing(false));
 
   const handleDeleteList = async () => {
-    await confirmAndDelete('Ви впевнені, що хочете видалити список?', endpoint, onListCreated);
+    await confirmAndDelete('Ви впевнені, що хочете видалити список?', endpoint, () => {
+      dispatch(fetchBoard(boardId.toString()));
+      localStorage.removeItem(`list-color-${endpoint}`); // Очищення localStorage
+      onListCreated?.();
+    });
   };
 
   const handleCardUpdated = () => {
@@ -87,7 +109,12 @@ const List: React.FC<IListProps & { boardId: number }> = ({
         <input
           type="color"
           value={color}
-          onChange={handleColorChange}
+          onChange={(e) => {
+            // eslint-disable-next-line no-console
+            console.log('New color selected:', e.target.value);
+            handleColorChange(e);
+            localStorage.setItem(`list-color-${endpoint}`, e.target.value); // Зберігаємо в localStorage
+          }}
           className="color-picker"
           title="Обрати колір списку"
         />

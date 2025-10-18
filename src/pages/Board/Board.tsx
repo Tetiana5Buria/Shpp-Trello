@@ -109,7 +109,7 @@ function Board(): React.ReactElement {
               cards={list.cards}
               boardId={Number(board_id)}
               listId={list.id}
-              color={list.custom?.background}
+              color={list.custom?.background || '#fffacd'}
               onListCreated={() => dispatch(fetchBoard(board_id!))}
               onCardMoved={() => dispatch(fetchBoard(board_id!))}
               onCardUpdated={() => dispatch(fetchBoard(board_id!))}
