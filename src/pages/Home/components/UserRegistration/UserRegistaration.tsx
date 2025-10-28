@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import './userRegistration.scss';
 import { useForm } from 'react-hook-form';
@@ -6,6 +7,13 @@ import { useState, useMemo } from 'react';
 import { toast } from 'sonner';
 import { userForm, UserSignupData } from '../../../../common/helpers/userFormSchema';
 import { calculatePasswordStrength, getStrengthLabel } from '../../../../common/helpers/passwordStrengthHelper';
+import api from '../../../../api/request';
+
+interface RegisterResponse {
+  result: string;
+  id: number;
+}
+
 export interface SignupFormProps {
   onClose?: () => void;
 }
@@ -28,37 +36,36 @@ export default function SignupForm({ onClose }: SignupFormProps) {
 
   const onSubmit = async (data: UserSignupData) => {
     try {
-      const { passwordConfirmation, ...userData } = data;
-      let storedUsers: UserSignupData[] = [];
-      try {
-        const storedData = localStorage.getItem('users');
-        storedUsers = storedData ? JSON.parse(storedData) : [];
-        if (!Array.isArray(storedUsers)) {
-          storedUsers = [];
-        }
-      } catch (error) {
-        toast.error('Не вдалося отримати доступ до сховища');
-        return;
-      }
-      if (storedUsers.some((u) => u.userEmail === userData.userEmail)) {
-        toast.error('Користувач з такою поштою вже існує!');
+      const { passwordConfirmation, ...payload } = data;
+
+      const existingUsers = await api.get<any>('/user', {
+        params: { emailOrUsername: payload.userEmail },
+      });
+
+      if (Array.isArray(existingUsers) && existingUsers.length > 0) {
+        toast.error('Користувач із таким email вже існує!');
         return;
       }
 
-      const updatedUsers = [...storedUsers, userData];
-      localStorage.setItem('users', JSON.stringify(updatedUsers));
-      localStorage.setItem('user', JSON.stringify(userData));
+      const registerResponse = await api.post<RegisterResponse>('/user', {
+        email: payload.userEmail,
+        password: payload.password,
+      });
 
-      console.log('✅ Користувача збережено в localStorage:', userData);
-      setSuccess(true);
-      reset();
-      setTimeout(() => {
-        setSuccess(false);
-        onClose?.();
-      }, 2000);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      toast.error('Щось пішло не так: ' + err.message);
+      if (registerResponse) {
+        toast.success('Реєстрація успішна!');
+        setSuccess(true);
+        reset();
+
+        setTimeout(() => {
+          setSuccess(false);
+          onClose?.();
+        }, 2000);
+      } else {
+        toast.error('Неочікувана відповідь сервера');
+      }
+    } catch (error: any) {
+      toast.error('Помилка при реєстрації');
     }
   };
 
@@ -66,6 +73,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
     <div className="form-container">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h2 className="title">Реєстрація</h2>
+
         <div className="inputGroup">
           <label htmlFor="userEmail" className="label">
             Email

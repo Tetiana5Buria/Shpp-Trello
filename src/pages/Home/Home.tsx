@@ -23,14 +23,12 @@ const Home = () => {
   const [boards, setBoards] = useState<BoardType[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('theme') === 'dark');
+  const [isOpen, setIsOpen] = useState(false);
 
-  const [isOpen, setIsOpen] = useState(() => {
-    const user = localStorage.getItem('user'); //перевірка на юзера
-    return !user;
-  });
   const toggleTheme = () => {
     setIsDarkMode((prev) => !prev);
   };
+
   const handleClose = () => {
     setIsOpen(false);
   };
@@ -41,7 +39,6 @@ const Home = () => {
       setBoards(response.boards);
     } catch (error) {
       setError('Помилка при завантаженні дошок');
-      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -52,17 +49,8 @@ const Home = () => {
   }, [isDarkMode]);
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (!user) {
-      setIsOpen(true);
-    }
-    console.log(user);
-  }, []);
-
-  useEffect(() => {
     fetchBoards();
   }, []);
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="homePage">
@@ -70,6 +58,7 @@ const Home = () => {
       <button onClick={toggleTheme} className="theme-toggle">
         {isDarkMode ? '🌞' : '🌙'}
       </button>
+
       <div className="boards-container">
         {boards.map((board) => (
           <Link to={`/board/${board.id}`} key={board.id}>
@@ -78,6 +67,7 @@ const Home = () => {
         ))}
         <CreateBoard onBoardCreated={fetchBoards} />
       </div>
+
       {isOpen && (
         <div className="modal">
           <SignupForm onClose={handleClose} />
