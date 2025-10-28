@@ -1,0 +1,9 @@
+tilted-card {
+    transform-style: preserve-3d;
+    will-change: transform;
+    position: relative;
+    z-index: 1000;
+    /* Забезпечує, що картка над іншими елементами */
+    pointer-events: auto;
+    /* Дозволяємо взаємодію */
+}

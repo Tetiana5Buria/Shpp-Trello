@@ -13,6 +13,7 @@ import { openModal } from '../../../../featchers/store/modal-slice';
 import { useNavigate } from 'react-router-dom';
 import { Edit3 } from 'lucide-react'; // імпорт іконк
 import { getCardEndpoint, navigateToCard } from '../../../../common/services/cardServices';
+import { Tilt } from 'react-tilt';
 
 const Card: React.FC<ICardProps> = ({
   title,

@@ -14,6 +14,7 @@ import {
 import { toast } from 'sonner';
 import { IMinimalCard } from './dndTypes';
 import { updateCardPositions } from '../common/services/dndDropServices';
+import { TiltAnimator } from './avatarUtils';
 
 export function dndDrop(listEl: HTMLElement, boardId: number, onSuccess: () => void) {
   listEl.addEventListener('dragenter', (event) => {
@@ -115,30 +116,11 @@ export function onDragStart(e: DragEvent, id: number, fromListId: number, fromPo
   dndState.oldListEl = target.closest('.list-cards') as HTMLElement;
   if (!dndState.oldListEl) return;
 
+  const tilt = new TiltAnimator(target); // Створюємо екземпляр TiltAnimator
+
   dndState.sourceSlot = createSlot();
   dndState.sourceSlot.dataset.position = fromPosition.toString();
   insertSlot(dndState.oldListEl, dndState.sourceSlot, fromPosition);
-
-  const isDragging = true;
-  if (isDragging) {
-    target.classList.add('tilted-card');
-
-    target.style.background = target.style.background || '#ffffff';
-  }
-
-  const transparentImage = new Image();
-  transparentImage.src =
-    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==';
-  e.dataTransfer?.setDragImage(transparentImage, 0, 0);
-
-  const onDragOver = (e: DragEvent) => {
-    if (dndState.draggedEl && isDragging) {
-      const tiltX = (e.clientX / window.innerWidth - 0.5) * 10;
-      const tiltY = (e.clientY / window.innerHeight - 0.5) * 5;
-      dndState.draggedEl.style.transform = `rotateX(${tiltY}deg) rotateY(${tiltX}deg) scale(1.05)`;
-    }
-  };
-  document.addEventListener('dragover', onDragOver);
 
   const onDragEnd = () => {
     if (dndState.draggedEl) {
@@ -149,7 +131,7 @@ export function onDragStart(e: DragEvent, id: number, fromListId: number, fromPo
     if (dndState.sourceSlot) removeSourceSlot();
     if (dndState.targetSlot) removeTargetSlot();
     resetDndState();
-    document.removeEventListener('dragover', onDragOver);
+    tilt.destroy(); // Очищаємо tilt
     document.removeEventListener('dragend', onDragEnd);
   };
   document.addEventListener('dragend', onDragEnd);

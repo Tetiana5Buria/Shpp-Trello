@@ -4,6 +4,7 @@ import api from '../../api/request';
 import Board from './components/Board/Board';
 import CreateBoard from './components/CreateBoard/CreateBoard';
 import './home.scss';
+import SignupForm from './components/UserRegistration/UserRegistaration';
 
 interface BoardType {
   id: number;
@@ -21,8 +22,12 @@ const Home = () => {
   const [boards, setBoards] = useState<BoardType[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('theme') === 'dark');
+  const [isOpen, setIsOpen] = useState(true); // замінити на false для відміни форми. це для мене
   const toggleTheme = () => {
     setIsDarkMode((prev) => !prev);
+  };
+  const handleClose = () => {
+    setIsOpen(false);
   };
 
   const fetchBoards = async () => {
@@ -40,6 +45,13 @@ const Home = () => {
     document.body.className = isDarkMode ? 'dark' : 'light';
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      setIsOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     fetchBoards();
@@ -60,6 +72,11 @@ const Home = () => {
         ))}
         <CreateBoard onBoardCreated={fetchBoards} />
       </div>
+      {isOpen && (
+        <div className="modal">
+          <SignupForm onClose={handleClose} />
+        </div>
+      )}
     </div>
   );
 };

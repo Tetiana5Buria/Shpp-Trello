@@ -1,12 +1,37 @@
 @import '../../src/styles/variables';
-@import '../../src//styles/mixins';
+@import '../../src/styles/mixins';
+
+.board {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
 
 .list-cards {
   min-height: 100px;
   padding: 0;
   list-style: none;
   overflow: visible;
+  border-radius: 8px;
+  padding: 8px;
+  flex: 1;
+  min-width: 200px;
 }
+
+
+  .card {
+      background: white;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 8px;
+      cursor: grab;
+      user-select: none;
+      transition: box-shadow 0.15s ease;
+
+  @include card-style;
+}
+
+
 
 .card-slot {
   height: 80px;
@@ -21,36 +46,6 @@
 .source-slot {
   background: rgba(9, 30, 66, 0.04);
 }
-
-.card {
-  @include card-style;
-  user-select: none;
-  cursor: grab;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-
-
-  &.tilted-card {
-    transform: rotate(6deg) scale(1.05);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
-    cursor: grabbing;
-    z-index: 9999;
-    position: relative;
-    will-change: transform;
-    background: inherit;
-
-  }
-}
-
-/* .drag_image {
-  border-radius: 6px;
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
-  transform-origin: center center;
-  will-change: transform, left, top;
-  pointer-events: none;
-  position: fixed;
-  z-index: 9999;
-  transition: transform 0.1s ease, left 0.1s ease, top 0.1s ease;
-} */
 
 .drop-highlight {
   outline: 2px solid #0079bf;

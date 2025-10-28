@@ -1,8 +1,28 @@
 // src/styles/_mixins.scss
 @import './variables';
+@mixin respond-to($device) {
+  @if $device ==mobile {
+    @media (max-width: $breakpoint-mobile) {
+      @content;
+    }
+  }
+
+  @else if $device ==tablet {
+    @media (max-width: $breakpoint-tablet) {
+      @content;
+    }
+  }
+
+  @else if $device ==desktop {
+    @media (max-width: $breakpoint-desktop) {
+      @content;
+    }
+  }
+}
 
 @mixin button-style($bg: $button-bg, $color: $text-color) {
   background: $card-bg;
+  flex-wrap: wrap;
   padding: 12px;
   border-radius: $border-radius;
   font-family: $font-family;

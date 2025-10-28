@@ -6,14 +6,11 @@ import CustomToaster from '../src/pages/Board/components/CustomToster/CustomToas
 /* import Registration from './pages/Registration'; */
 
 function App(): React.ReactElement {
-  /* const basename = process.env.PUBLIC_URL; */
-
   return (
-    <Router /* basename={basename} */>
+    <Router>
       <CustomToaster />
       <Routes>
         <Route path="/board/:board_id" element={<Board />} />
-
         <Route path="/b/:board_id/c/:card_id" element={<Board />} />
         <Route path="/" element={<Home />} />
         {/*         <Route path="/registration" element={<Registration />} /> */}

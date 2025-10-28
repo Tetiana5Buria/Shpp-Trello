@@ -23,8 +23,6 @@ export const handleCardColorChange = (
   extraData?: ExtraData
 ) => {
   const newColor = e.target.value;
-  // eslint-disable-next-line no-console
-  console.log('handleCardColorChange called with newColor:', newColor);
 
   dispatch(
     updateCardThunk({

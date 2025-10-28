@@ -147,8 +147,8 @@ const CardModal: React.FC<CardModalProps> = ({ onCardUpdated }) => {
           custom: { ...card.custom, background: currentColor, deadline },
         })
       );
-      dispatch(closeModal());
-      navigate(navigateToBoardFromCard(card));
+      /*    dispatch(closeModal()); */
+      /*  navigate(navigateToBoardFromCard(card)); */
       if (onCardUpdated) onCardUpdated();
     } catch (err: any) {
       toast.error(err?.message || 'Помилка при збереженні картки');
@@ -181,8 +181,8 @@ const CardModal: React.FC<CardModalProps> = ({ onCardUpdated }) => {
         })
       ).unwrap();
       toast.success('Картку скопійовано');
-      dispatch(closeModal());
-      navigate(navigateToBoardFromCard(card));
+      /*    dispatch(closeModal()); */
+      /*   navigate(navigateToBoardFromCard(card)); */
       if (onCardUpdated) onCardUpdated();
     } catch (err: any) {
       toast.error(err?.message || 'Помилка при копіюванні картки');
@@ -215,8 +215,8 @@ const CardModal: React.FC<CardModalProps> = ({ onCardUpdated }) => {
         })
       ).unwrap();
       toast.success('Картку архівовано');
-      dispatch(closeModal());
-      navigate(navigateToBoardFromCard(card));
+      /*  dispatch(closeModal()); */
+      /*   navigate(navigateToBoardFromCard(card)); */
       if (onCardUpdated) onCardUpdated();
     } catch (err: any) {
       toast.error(err?.message || 'Помилка при архівації картки');
@@ -229,7 +229,7 @@ const CardModal: React.FC<CardModalProps> = ({ onCardUpdated }) => {
     <div
       className="modal-overlay"
       onClick={() => {
-        dispatch(closeModal());
+        /*   dispatch(closeModal()); */
         navigate(navigateToBoardFromCard(card));
       }}
     >
@@ -237,7 +237,7 @@ const CardModal: React.FC<CardModalProps> = ({ onCardUpdated }) => {
         <button
           className="close-btn"
           onClick={() => {
-            dispatch(closeModal());
+            /*  dispatch(closeModal()); */
             navigate(navigateToBoardFromCard(card));
           }}
         >
@@ -355,7 +355,13 @@ const CardModal: React.FC<CardModalProps> = ({ onCardUpdated }) => {
           </div>
 
           <div className="modal-actions">
-            <button onClick={debouncedSave} disabled={loading}>
+            <button
+              onClick={() => {
+                dispatch(closeModal());
+                navigate(navigateToBoardFromCard(card));
+              }}
+              disabled={loading}
+            >
               {loading ? 'Збереження...' : 'Зберегти'}
             </button>
             <button

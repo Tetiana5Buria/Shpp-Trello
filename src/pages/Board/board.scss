@@ -5,23 +5,28 @@ body {
   height: 100%;
   width: 100%;
   background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-
+  background-repeat: no-repeat;
+  background-position: center center;
 }
-h4{
-  color:rgb(42, 47, 47);
+h4 {
+  color: rgb(42, 47, 47);
   display: flex;
   align-items: end;
   justify-content: end;
 }
 
 .board-container {
+  flex-wrap: wrap;
+  gap: 10px;
   width: 100%;
   padding: 20px;
   height: calc(100vh - 80px);
   overflow-y: auto;
   font-family: $font-family;
+  @include respond-to(mobile) {
+    flex-direction: column;
+    align-items: center;
+  }
 
   ul {
     width: 100%;
@@ -32,9 +37,26 @@ h4{
 
   .lists {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     gap: 50px;
     text-align: center;
+    @include respond-to(tablet) {
+      padding: 8px;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    @include respond-to(mobile) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 10px;
+      margin-right: 0;
+      font-size: 14px;
+    }
   }
 
   .add-list-wrapper {
@@ -74,7 +96,7 @@ h4{
   .board-title input {
     font-size: 24px;
     padding: 4px;
-    border: 1px solid #ccc;
+    border: 1px solid $color-muted;
     border-radius: 4px;
   }
 
@@ -97,8 +119,8 @@ h4{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f44336;
-  color: white;
+  background-color: $color-danger;
+  color: $color-bg;
   border: none;
   padding: 15px 10px;
   cursor: pointer;
@@ -107,6 +129,6 @@ h4{
   z-index: 100;
 
   &:hover {
-    background-color: #d32f2f;
+    background-color: $color-danger;
   }
 }
