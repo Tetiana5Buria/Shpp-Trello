@@ -24,6 +24,9 @@ const Home = () => {
   const [error, setError] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('theme') === 'dark');
   const [isOpen, setIsOpen] = useState(false);
+  // === Модалка ===
+  const openSignup = () => setIsOpen(true);
+  const closeSignup = () => setIsOpen(false);
 
   const toggleTheme = () => {
     setIsDarkMode((prev) => !prev);
@@ -58,6 +61,9 @@ const Home = () => {
       <button onClick={toggleTheme} className="theme-toggle">
         {isDarkMode ? '🌞' : '🌙'}
       </button>
+      <button onClick={openSignup} className="signup-btn">
+        Реєстрація
+      </button>
 
       <div className="boards-container">
         {boards.map((board) => (
@@ -69,8 +75,13 @@ const Home = () => {
       </div>
 
       {isOpen && (
-        <div className="modal">
-          <SignupForm onClose={handleClose} />
+        <div className="modal-overlay" onClick={closeSignup}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeSignup} aria-label="Закрити">
+              ×
+            </button>
+            <SignupForm onClose={handleClose} />
+          </div>
         </div>
       )}
     </div>

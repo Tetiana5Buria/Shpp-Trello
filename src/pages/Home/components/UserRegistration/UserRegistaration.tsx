@@ -38,7 +38,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
     try {
       const { passwordConfirmation, ...payload } = data;
 
-      const existingUsers = await api.get<any>('/user', {
+      const existingUsers = await api.get('/user', {
         params: { emailOrUsername: payload.userEmail },
       });
 
@@ -76,7 +76,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
 
         <div className="inputGroup">
           <label htmlFor="userEmail" className="label">
-            Email
+            Email:
           </label>
           <input id="userEmail" className={`input ${errors.userEmail ? 'error' : ''}`} {...register('userEmail')} />
           {errors.userEmail && <p className="error errorMessage">{errors.userEmail.message}</p>}
@@ -84,7 +84,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
 
         <div className="inputGroup">
           <label htmlFor="password" className="label">
-            Пароль
+            Пароль:
           </label>
           <input
             id="password"
@@ -116,7 +116,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
 
         <div className="inputGroup">
           <label htmlFor="passwordConfirmation" className="label">
-            Повторити пароль
+            Повторити пароль:
           </label>
           <input
             id="passwordConfirmation"

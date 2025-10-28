@@ -99,8 +99,67 @@ body.light h1 {
     }
   }
 }
+.signup-btn {
+  position: absolute;
+  top: 5px;
+  right: 50px;
+  background: linear-gradient(135deg, #9573b5 0%, #98db9c 70%);
+  color: white;
+  padding: 10px 10px;
+  border-radius: 5px;
+
+  &:hover {
+    background: #9573b5;
+  }
+}
 .modal {
   @include modal-style;
   background-color: rgba(0, 0, 0, 0.7);
+}
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 15px;
+}
 
+
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #999;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #f0f0f0;
+    color: #000;
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
