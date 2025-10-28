@@ -6,16 +6,35 @@
     align-items: center;
 
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin: 0 auto;
-    padding: 10px 20px;
-    background: linear-gradient(135deg, #8f38b7 30%, #2c7582 70%);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 400px;
-}
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin: 0 auto;
+        padding: 20px 30px;
+        border-radius: 16px;
+        width: 400px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        color: white;
+        background: linear-gradient(270deg, #80469f, #2d6c77, #5be9d3, #32abd6);
+        background-size: 600% 600%;
+        animation: gradientShift 10s ease infinite;
+    }
+
+    @keyframes gradientShift {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
 
 .title {
     text-align: center;

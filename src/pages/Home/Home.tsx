@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/request';
@@ -22,7 +23,11 @@ const Home = () => {
   const [boards, setBoards] = useState<BoardType[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('theme') === 'dark');
-  const [isOpen, setIsOpen] = useState(true); // замінити на false для відміни форми. це для мене
+
+  const [isOpen, setIsOpen] = useState(() => {
+    const user = localStorage.getItem('user'); //перевірка на юзера
+    return !user;
+  });
   const toggleTheme = () => {
     setIsDarkMode((prev) => !prev);
   };
@@ -51,6 +56,7 @@ const Home = () => {
     if (!user) {
       setIsOpen(true);
     }
+    console.log(user);
   }, []);
 
   useEffect(() => {
