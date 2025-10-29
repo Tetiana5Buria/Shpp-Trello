@@ -7,12 +7,7 @@ import { useState, useMemo } from 'react';
 import { toast } from 'sonner';
 import { userForm, UserSignupData } from '../../../../common/helpers/userFormSchema';
 import { calculatePasswordStrength, getStrengthLabel } from '../../../../common/helpers/passwordStrengthHelper';
-import api from '../../../../api/request';
-
-interface RegisterResponse {
-  result: string;
-  id: number;
-}
+import { checkExistingUser, registerUser } from '../../../../common/services/userServices';
 
 export interface SignupFormProps {
   onClose?: () => void;
@@ -38,21 +33,14 @@ export default function SignupForm({ onClose }: SignupFormProps) {
     try {
       const { passwordConfirmation, ...payload } = data;
 
-      const existingUsers = await api.get('/user', {
-        params: { emailOrUsername: payload.userEmail },
-      });
-
-      if (Array.isArray(existingUsers) && existingUsers.length > 0) {
+      const exists = await checkExistingUser(payload.userEmail);
+      if (exists) {
         toast.error('Користувач із таким email вже існує!');
         return;
       }
 
-      const registerResponse = await api.post<RegisterResponse>('/user', {
-        email: payload.userEmail,
-        password: payload.password,
-      });
-
-      if (registerResponse) {
+      const res = await registerUser(payload.userEmail, payload.password);
+      if (res.result === 'Created') {
         toast.success('Реєстрація успішна!');
         setSuccess(true);
         reset();
@@ -64,7 +52,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
       } else {
         toast.error('Неочікувана відповідь сервера');
       }
-    } catch (error: any) {
+    } catch (error) {
       toast.error('Помилка при реєстрації');
     }
   };

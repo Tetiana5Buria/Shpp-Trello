@@ -1,4 +1,3 @@
-// src/api/request.ts
 import axios from 'axios';
 import { api } from '../common/constants';
 import NProgress from 'nprogress';
@@ -14,21 +13,19 @@ const instance = axios.create({
 
 instance.interceptors.request.use(async (config) => {
   NProgress.start();
-  await new Promise((res) => setTimeout(res, 300));
+  await new Promise((res) => setTimeout(res, 500));
   return config;
 });
 
 instance.interceptors.response.use(
   (response) => {
     NProgress.done();
-    return response;
+    return response.data;
   },
   (error) => {
     NProgress.done();
     return Promise.reject(error);
   }
 );
-
-instance.interceptors.response.use((res) => res.data);
 
 export default instance;

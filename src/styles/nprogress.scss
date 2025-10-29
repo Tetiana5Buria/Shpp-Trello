@@ -1,31 +1,44 @@
-#nprogress {
-  pointer-events: none;
-}
+// src/styles/nprogress.scss
 
 #nprogress .bar {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 280px;
-  height: 40px;
-  background: linear-gradient(#d9d316, #00f2fe);
-  border-radius: 8px;
-  overflow: hidden;
-  z-index: 1000;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(90deg, #0079bf, #43a436, #0079bf);
+  background-size: 200% 100%;
+  animation: gradientMove 5s linear infinite, progress 2s ease-out;
+  height: 3px;
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 8px rgba(0, 121, 191, 0.5);
 }
 
-#nprogress .bar::after {
-  content: 'Loading... ⏳';
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-  letter-spacing: 1px;
-  text-align: center;
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+
+  50% {
+    width: 85%;
+    opacity: 1;
+  }
+
 }
 
 
+body.dark #nprogress .bar {
+  background: linear-gradient(90deg, #81cd2a, #9c197d, #00c2ff);
+  box-shadow: 0 0 8px rgba(0, 194, 255, 0.6);
+}
+
+
+#nprogress .peg {
+  display: none;
+}

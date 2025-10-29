@@ -3,6 +3,7 @@ import './App.css';
 import Board from './pages/Board/Board';
 import Home from './pages/Home/Home';
 import CustomToaster from '../src/pages/Board/components/CustomToster/CustomToaster';
+import './styles/nprogress.scss';
 /* import Registration from './pages/Registration'; */
 
 function App(): React.ReactElement {
