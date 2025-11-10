@@ -1,7 +1,7 @@
 import React from 'react';
 import api from '../../../../api/request';
 import './createBoard.scss';
-import CreateModalEntityBoard from '../../components/CreateModalEntityBoard';
+import CreateModalEntityBoard from '../CreateModalEntityBoard/CreateModalEntityBoard';
 import { toast } from 'sonner';
 import { CreateBoardProps } from '../../../../common/interfaces/Interfaces';
 

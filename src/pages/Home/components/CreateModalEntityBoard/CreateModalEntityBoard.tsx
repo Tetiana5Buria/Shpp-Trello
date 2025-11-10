@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { colorOptions } from '../../../common/constants/ColorOptions';
-import { validateTitle } from '../../../utils/validateTitle';
-import ImageUpload from './ImageUpload';
+import { colorOptions } from '../../../../common/constants/ColorOptions';
+import { validateTitle } from '../../../../utils/validateTitle';
+import ImageUpload from '../ImageUpload/ImageUpload';
 import './CreateModalEntityBoard';
-import { ICreateModalEntityPropsBoard } from '../../../common/interfaces/Interfaces';
+import { ICreateModalEntityPropsBoard } from '../../../../common/interfaces/Interfaces';
 
 const CreateModalEntityBoard: React.FC<ICreateModalEntityPropsBoard> = ({
   entity,

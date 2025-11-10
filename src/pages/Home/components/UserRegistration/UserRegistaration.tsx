@@ -8,12 +8,11 @@ import { toast } from 'sonner';
 import { userForm, UserSignupData } from '../../../../common/helpers/userFormSchema';
 import { calculatePasswordStrength, getStrengthLabel } from '../../../../common/helpers/passwordStrengthHelper';
 import { checkExistingUser, registerUser } from '../../../../common/services/userServices';
+import { Link, useNavigate } from 'react-router-dom';
+import PasswordInput from '../PasswordInput/PasswordInput';
+import CustomButton from '../../../../common/customButton/CustomButton';
 
-export interface SignupFormProps {
-  onClose?: () => void;
-}
-
-export default function SignupForm({ onClose }: SignupFormProps) {
+export default function SignupForm() {
   const {
     register,
     handleSubmit,
@@ -28,32 +27,30 @@ export default function SignupForm({ onClose }: SignupFormProps) {
   const password = watch('password') || '';
   const passwordStrength = useMemo(() => calculatePasswordStrength(password), [password]);
   const { label, color } = getStrengthLabel(passwordStrength);
+  const navigate = useNavigate();
 
   const onSubmit = async (data: UserSignupData) => {
     try {
       const { passwordConfirmation, ...payload } = data;
 
-      const exists = await checkExistingUser(payload.userEmail);
+      const exists = await checkExistingUser(payload.email);
       if (exists) {
         toast.error('Користувач із таким email вже існує!');
         return;
       }
 
-      const res = await registerUser(payload.userEmail, payload.password);
+      const res = await registerUser(payload.email, payload.password);
       if (res.result === 'Created') {
         toast.success('Реєстрація успішна!');
-        setSuccess(true);
-        reset();
 
-        setTimeout(() => {
-          setSuccess(false);
-          onClose?.();
-        }, 2000);
+        setSuccess(true);
+        navigate('/login');
+        reset();
       } else {
         toast.error('Неочікувана відповідь сервера');
       }
     } catch (error) {
-      toast.error('Помилка при реєстрації');
+      console.log(`Помилка: ${(error as any).message ?? 'Невідома помилка'}`);
     }
   };
 
@@ -63,23 +60,20 @@ export default function SignupForm({ onClose }: SignupFormProps) {
         <h2 className="title">Реєстрація</h2>
 
         <div className="inputGroup">
-          <label htmlFor="userEmail" className="label">
+          <label htmlFor="email" className="label">
             Email:
           </label>
-          <input id="userEmail" className={`input ${errors.userEmail ? 'error' : ''}`} {...register('userEmail')} />
-          {errors.userEmail && <p className="error errorMessage">{errors.userEmail.message}</p>}
+          <input
+            id="email"
+            className={`input ${errors.email ? 'error' : ''}`}
+            {...register('email')}
+            placeholder="Введіть електронну адресу"
+          />
+          {errors.email && <p className="error errorMessage">{errors.email.message}</p>}
         </div>
 
         <div className="inputGroup">
-          <label htmlFor="password" className="label">
-            Пароль:
-          </label>
-          <input
-            id="password"
-            type="password"
-            className={`input ${errors.password ? 'error' : ''}`}
-            {...register('password')}
-          />
+          <PasswordInput label="Пароль:" register={register('password')} placeholder={'Введіть пароль'} />
           {errors.password && <p className="errorMessage">{errors.password.message}</p>}
 
           {password && (
@@ -90,7 +84,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                     key={i}
                     className="strengthSegment"
                     style={{
-                      backgroundColor: i < passwordStrength ? color : '#4F4F',
+                      backgroundColor: i < passwordStrength ? color : '#FFF',
                     }}
                   />
                 ))}
@@ -103,26 +97,20 @@ export default function SignupForm({ onClose }: SignupFormProps) {
         </div>
 
         <div className="inputGroup">
-          <label htmlFor="passwordConfirmation" className="label">
-            Повторити пароль:
-          </label>
-          <input
-            id="passwordConfirmation"
-            type="password"
-            className={`input ${errors.passwordConfirmation ? 'error' : ''}`}
-            {...register('passwordConfirmation')}
+          <PasswordInput
+            label="Повторити пароль:"
+            register={register('passwordConfirmation')}
+            placeholder={'Повторіть пароль'}
           />
           {errors.passwordConfirmation && <p className="errorMessage">{errors.passwordConfirmation.message}</p>}
         </div>
-
-        <button className="button" type="submit" disabled={isSubmitting}>
+        <CustomButton className="button" type="submit" loading={isSubmitting}>
           {isSubmitting ? 'Реєстрація...' : 'Зареєструватися'}
-        </button>
-
+        </CustomButton>
         {success && <p className="successMessage">✅ Реєстрація успішна!</p>}
 
         <p className="loginLink">
-          Уже маєте акаунт? <a href="/login">Увійти</a>
+          Вже є акаунт? <Link to="/login">Увійти</Link>
         </p>
       </form>
     </div>

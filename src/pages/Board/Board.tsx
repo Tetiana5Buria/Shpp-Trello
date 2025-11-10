@@ -51,7 +51,10 @@ function Board(): React.ReactElement {
     );
   };
 
-  if (!boardData) return <p>Loading...</p>;
+  // ✅ Захист від undefined даних
+  if (!boardData || !boardData.lists) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'sonner';
-import { ImageUploadProps } from '../../../common/interfaces/Interfaces';
-import './ImageUpload.scss';
+import { ImageUploadProps } from '../../../../common/interfaces/Interfaces';
+import './imageUpload.scss';
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onImageChange }) => {
   const [preview, setPreview] = useState<string | undefined>(undefined);

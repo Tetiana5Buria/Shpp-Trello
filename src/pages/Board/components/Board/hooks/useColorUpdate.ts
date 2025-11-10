@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { updateListColorRequest } from '../../../../../common/services/listServices';
+import { updateBoardColorRequest } from '../../../../../common/services/boardServices';
 import { useAppDispatch } from '../../../../../featchers/hooks';
 import { fetchBoard } from '../../../../../featchers/store/board-slice';
 
@@ -14,11 +15,22 @@ export const useColorUpdate = (initialColor: string, endpoint: string, onSuccess
     setColor(newColor);
 
     try {
-      const [boardId, listId] = endpoint.split('/board/')[1].split('/list/');
-      await updateListColorRequest(boardId, listId, newColor, title ?? '');
+      const boardMatch = endpoint.match(/\/board\/(\d+)/);
+      const listMatch = endpoint.match(/\/list\/(\d+)/);
+
+      if (!boardMatch) throw new Error('Board ID not found');
+
+      const boardId = boardMatch[1];
+
+      if (listMatch) {
+        const listId = listMatch[1];
+        await updateListColorRequest(boardId, listId, newColor, title ?? '');
+      } else {
+        await updateBoardColorRequest(boardId, newColor, title ?? '');
+      }
 
       toast.success('Колір успішно змінено');
-      dispatch(fetchBoard(boardId.toString()));
+      dispatch(fetchBoard(boardId));
       onSuccess?.();
     } catch (error) {
       toast.error('Помилка при оновленні кольору');

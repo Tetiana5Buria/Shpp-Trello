@@ -1,3 +1,15 @@
+export interface BoardType {
+  id: number;
+  title: string;
+  custom: {
+    background: string;
+  };
+}
+
+export interface BoardsResponse {
+  boards: BoardType[];
+}
+
 export interface CreateModalEntityProps {
   entity: string;
   buttonText: string;

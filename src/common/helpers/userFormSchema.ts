@@ -1,7 +1,7 @@
 import { z } from 'zod';
 export const userForm = z
   .object({
-    userEmail: z
+    email: z
       .string()
       .min(1, 'Електронна пошта обов’язкова')
       .email('Невірний формат електронної пошти')
@@ -15,3 +15,10 @@ export const userForm = z
   });
 
 export type UserSignupData = z.infer<typeof userForm>;
+
+export const userLoginForm = z.object({
+  email: z.string().email('Некоректний email'),
+  password: z.string().min(6, 'Мінімум 6 символів'),
+});
+
+export type UserLoginData = z.infer<typeof userLoginForm>;
