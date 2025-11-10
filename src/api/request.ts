@@ -10,7 +10,6 @@ const instance = axios.create({
   },
 });
 
-// Додаємо токен у кожен запит
 instance.interceptors.request.use((config) => {
   NProgress.start();
   const token = localStorage.getItem('authToken');
@@ -19,8 +18,7 @@ instance.interceptors.request.use((config) => {
   }
   return config;
 });
-
-// Оновлення токена, якщо 401
+//401
 instance.interceptors.response.use(
   (response) => {
     NProgress.done();
