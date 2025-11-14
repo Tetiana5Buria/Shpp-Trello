@@ -29,11 +29,11 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+      originalRequest._retry = true; //Помічаємо, що це повторна спроба — щоб уникнути зациклення.
       try {
         const refreshToken = localStorage.getItem('refreshToken');
         const res = await instance.post('/refresh', { refreshToken });
-        const { token, refreshToken: newRefresh } = res.data;
+        const { token, refreshToken: newRefresh } = res.data; //Деструктуризує нові токени з відповіді.
 
         localStorage.setItem('authToken', token);
         localStorage.setItem('refreshToken', newRefresh);
@@ -48,7 +48,7 @@ instance.interceptors.response.use(
       }
     }
 
-    return Promise.reject(error);
+    return Promise.reject(error); //Кожен .then() повертає новий Promise/Vожна ланцюжком обробляти результат
   }
 );
 

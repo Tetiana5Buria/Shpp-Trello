@@ -18,29 +18,24 @@ export interface UserCheckResponse {
   username: string;
 }
 
-// 🔹 Перевірка чи існує користувач (публічний запит)
 export async function checkExistingUser(emailOrUsername: string): Promise<boolean> {
   const response = await publicApi.get<UserCheckResponse[]>(`/user`, {
     params: { emailOrUsername },
   });
 
-  // якщо бекенд повернув масив — користувачі існують
   return Array.isArray(response.data) && response.data.length > 0;
 }
 
-// 🔹 Реєстрація користувача (публічний запит)
 export async function registerUser(email: string, password: string): Promise<RegisterResponse> {
   const response = await publicApi.post<RegisterResponse>('/user', { email, password });
   return response.data;
 }
 
-// 🔹 Логін користувача (публічний запит)
 export async function loginUser(email: string, password: string): Promise<LoginResponse> {
   const response = await publicApi.post<LoginResponse>('/login', { email, password });
 
   const { token, refreshToken } = response.data;
 
-  // зберігаємо токени у localStorage
   if (token && refreshToken) {
     localStorage.setItem('authToken', token);
     localStorage.setItem('refreshToken', refreshToken);
@@ -49,7 +44,6 @@ export async function loginUser(email: string, password: string): Promise<LoginR
   return response.data;
 }
 
-// 🔹 Оновлення токена (авторизований запит)
 export async function refreshToken(): Promise<LoginResponse> {
   const storedRefreshToken = localStorage.getItem('refreshToken');
 
@@ -63,7 +57,6 @@ export async function refreshToken(): Promise<LoginResponse> {
 
   const { token, refreshToken: newRefresh } = response.data;
 
-  // оновлюємо токени
   if (token && newRefresh) {
     localStorage.setItem('authToken', token);
     localStorage.setItem('refreshToken', newRefresh);

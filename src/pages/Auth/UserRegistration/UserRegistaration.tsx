@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState, useMemo } from 'react';
 import { toast } from 'sonner';
-import { userForm, UserSignupData } from '../../../../common/helpers/userFormSchema';
-import { calculatePasswordStrength, getStrengthLabel } from '../../../../common/helpers/passwordStrengthHelper';
-import { checkExistingUser, registerUser } from '../../../../common/services/userServices';
+import { userForm, UserSignupData } from '../../../common/helpers/userFormSchema';
+import { calculatePasswordStrength, getStrengthLabel } from '../../../common/helpers/passwordStrengthHelper';
+import { checkExistingUser, registerUser } from '../../../common/services/userServices';
 import { Link, useNavigate } from 'react-router-dom';
 import PasswordInput from '../PasswordInput/PasswordInput';
-import CustomButton from '../../../../common/customButton/CustomButton';
+import CustomButton from '../../../common/customButton/CustomButton';
 
 export default function SignupForm() {
   const {
@@ -44,8 +44,8 @@ export default function SignupForm() {
         toast.success('Реєстрація успішна!');
 
         setSuccess(true);
-        navigate('/login');
         reset();
+        navigate('/login');
       } else {
         toast.error('Неочікувана відповідь сервера');
       }

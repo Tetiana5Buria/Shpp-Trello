@@ -1,6 +1,6 @@
 import './loginPage.scss';
 
-import { UserAuthorisation } from '../../components/UserAuthorisation/UserAuthorisation';
+import { UserAuthorisation } from '../../Auth/UserAuthorisation/UserAuthorisation';
 
 const LoginPage = () => {
   return (

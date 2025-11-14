@@ -5,9 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useState } from 'react';
-import { loginUser } from '../../../../common/services/userServices';
-import CustomButton from '../../../../common/customButton/CustomButton';
-import { userLoginForm, UserLoginData } from '../../../../common/helpers/userFormSchema';
+import { loginUser } from '../../../common/services/userServices';
+import CustomButton from '../../../common/customButton/CustomButton';
+import { userLoginForm, UserLoginData } from '../../../common/helpers/userFormSchema';
 
 export const UserAuthorisation = () => {
   const {

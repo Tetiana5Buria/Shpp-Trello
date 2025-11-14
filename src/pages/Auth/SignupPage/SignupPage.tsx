@@ -1,6 +1,6 @@
 import './signupPage.scss';
 
-import SignupForm from '../../components/UserRegistration/UserRegistaration';
+import SignupForm from '../UserRegistration/UserRegistaration';
 
 const SignupPage = () => {
   return (

@@ -1,5 +1,5 @@
 // createBoardServices.ts
-export const createBoard = async (title: string, color: string, backgroundImage?: string) => {
+/* export const createBoard = async (title: string, color: string, backgroundImage?: string) => {
   try {
     const response = await fetch('/api/boards', {
       method: 'POST',
@@ -24,3 +24,5 @@ export const createBoard = async (title: string, color: string, backgroundImage?
     throw error;
   }
 };
+ */
+export {};
