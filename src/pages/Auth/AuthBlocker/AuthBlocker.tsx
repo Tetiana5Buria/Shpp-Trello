@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const useAuth = () => {
-  return Boolean(localStorage.getItem('authToken')); // ← Зміна тут!
+  return Boolean(localStorage.getItem('authToken'));
 };
 
 export const AuthBlocker = () => {
@@ -12,7 +12,7 @@ export const AuthBlocker = () => {
   const isAuth = useAuth();
 
   useEffect(() => {
-    if (isAuth) return; // Якщо авторизований — нічого не робимо
+    if (isAuth) return;
 
     const currentPath = location.pathname;
     const isOnBoard = currentPath.startsWith('/board') || currentPath.startsWith('/b/');
